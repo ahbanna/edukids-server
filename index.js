@@ -40,6 +40,14 @@ async function run() {
       res.send(result);
     });
     // toys CREATE api to receive data from client side end
+    
+    // READ starts
+    app.get("/alltoys", async (req, res) => {
+      const cursor = toyCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    // READ end
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
