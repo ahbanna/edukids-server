@@ -10,7 +10,7 @@ app.use(express.json());
 
 // MongoDB starts
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.k7baavr.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -40,7 +40,7 @@ async function run() {
       res.send(result);
     });
     // toys CREATE api to receive data from client side end
-    
+
     // READ starts
     app.get("/alltoys", async (req, res) => {
       const cursor = toyCollection.find();
@@ -48,6 +48,15 @@ async function run() {
       res.send(result);
     });
     // READ end
+
+    // toy details READ start
+    app.get("/alltoys/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await toyCollection.findOne(query);
+      res.send(result);
+    });
+    // toy details READ end
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
