@@ -1,10 +1,10 @@
 const express = require("express");
-const cors = require("cors");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 5000;
 
 // middleware
+const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
@@ -25,7 +25,8 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
+    client.connect();
     // create database and collection starts
     const toyCollection = client.db("toyDB").collection("alltoys");
     // create database and collection end
