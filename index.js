@@ -43,7 +43,7 @@ async function run() {
 
     // READ starts
     app.get("/alltoys", async (req, res) => {
-      const cursor = toyCollection.find();
+      const cursor = toyCollection.find().limit(20);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -104,8 +104,20 @@ async function run() {
       const result = await toyCollection.updateOne(filter, updatedtoy, options);
       res.send(result);
     });
-
     // my toys UPDATE end
+
+    // category toys READ starts
+    app.get("/subcategory", async (req, res) => {
+      console.log(req.query.subCategory);
+      let query = {};
+      if (req.query?.subCategory) {
+        query = { subCategory: req.query.subCategory };
+      }
+      const cursor = toyCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    // category toys READ end
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
